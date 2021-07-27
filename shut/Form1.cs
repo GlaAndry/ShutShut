@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ShutShut.Utils;
 
-namespace prova
+namespace ShutShut.shut
 { 
     public partial class Form1 : Form
     {
@@ -24,22 +24,10 @@ namespace prova
             InitializeComponent();
         }
 
-        /**
-         * Annulla lo shutdown corrente se esiste.
-         * */
+        
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //inserisco il comando
-            string command = "/C shutdown -a";
-            System.Diagnostics.Process.Start("CMD.exe", command);
-            //System.Diagnostics.Process process = new System.Diagnostics.Process();
-            //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            //startInfo.FileName = "cmd.exe";
-            //startInfo.Arguments = command;
-            //process.StartInfo = startInfo;
-            //process.Start();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -80,13 +68,23 @@ namespace prova
         }
 
         /**
+         * Annulla lo shutdown corrente se esiste.
+         * */
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            //inserisco il comando
+            string command = "/C shutdown -a";
+            System.Diagnostics.Process.Start("CMD.exe", command);
+        }
+
+
+        /**
          * Imposta il valore di Shutdown andando inizialmente
          * a calcolare la differenza di tempo (delta) e 
          * successivamente andando a richiamare il comando da CMD.
          * */
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e)
         {
-            
             date = DateTime.Now;
             datetimepick = dateTimePicker1.Value;
 
@@ -96,14 +94,27 @@ namespace prova
             //aggiungo i valori di ore e minuti.
             min = int.Parse(textBox2.Text);
             hour = int.Parse(textBox1.Text);
-           
+
             //ricavo la differenza aggiornata.
             deltaT = deltaT + (min * 60) + (hour * 60 * 60);
 
             //inserisco il comando e lo eseguo da CMD
             string command = "/C shutdown -s -t " + deltaT;
             System.Diagnostics.Process.Start("CMD.exe", command);
+        }
 
+        private void metroDateTime1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void metroLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {        
         }
 
     }
