@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ShutShut.Utils;
 
 namespace prova
 { 
@@ -51,29 +52,23 @@ namespace prova
 
         }
 
+        /**
+         * Accetto all'interno delle textbox solamente valori decimali
+         * che ne indicano il valore di MINUTI */
         private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
         }
 
+        /**
+         * Accetto all'interno delle textbox solamente valori decimali
+         * che ne indicano il valore di ORE */
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
@@ -94,37 +89,20 @@ namespace prova
             
             date = DateTime.Now;
             datetimepick = dateTimePicker1.Value;
-            int deltaT;
 
             //determino i secondi attuali di differenza
-            if (date >= datetimepick)
-            {
-                deltaT = (int)(date - datetimepick).TotalSeconds;
-            } else
-            {
-                deltaT = (int)(datetimepick - date).TotalSeconds;
-            }
-
+            int deltaT = new Utility().determineDelta(date, datetimepick);
 
             //aggiungo i valori di ore e minuti.
-
             min = int.Parse(textBox2.Text);
             hour = int.Parse(textBox1.Text);
            
-            
             //ricavo la differenza aggiornata.
             deltaT = deltaT + (min * 60) + (hour * 60 * 60);
 
-            //inserisco il comando
+            //inserisco il comando e lo eseguo da CMD
             string command = "/C shutdown -s -t " + deltaT;
             System.Diagnostics.Process.Start("CMD.exe", command);
-            //System.Diagnostics.Process process = new System.Diagnostics.Process();
-            //System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
-            //startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
-            //startInfo.FileName = "cmd.exe";
-            //startInfo.Arguments = command;
-            //process.StartInfo = startInfo;
-            //process.Start();
 
         }
 
